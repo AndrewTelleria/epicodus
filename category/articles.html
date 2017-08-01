@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Andrew K. Telleria - Articles</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Andrew K. Telleria </a></h1>
+                <nav><ul>
+                    <li><a href="/pages/about.html">About</a></li>
+                    <li><a href="/pages/contact.html">Contact</a></li>
+                    <li class="active"><a href="/category/articles.html">Articles</a></li>
+                    <li><a href="/category/projects.html">Projects</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/working-with-csvs.html">Working with CSVs</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2017-07-25T00:00:00-07:00">
+                Published: Tue 25 July 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/andrew-k-telleria.html">Andrew K. Telleria</a>
+        </address>
+<p>In <a href="/category/articles.html">Articles</a>.</p>
+
+</footer><!-- /.post-info --><p>For the beginning of the HO (Hack Oregon) Python II course we have been working with CSVs. We have mainley been using CSV readers and writers. These tools are used to help us when we need to parse csv files and are easy to use as ways to store data that we want to collect.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">csv</span>
+
+<span class="c1"># reader example</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;foo.csv&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">foo</span><span class="p">:</span> 
+    <span class="n">foo_reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
+
+    <span class="c1"># this is how you can grab the first header row out of a csv</span>
+    <span class="n">header_row</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">foo_reader</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">foo_reader</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+
+<span class="c1"># writer example </span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;foo_write.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">foo</span><span class="p">:</span>
+    <span class="n">foo_writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
+    <span class="n">foo_writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">((</span><span class="s2">&quot;col val 1&quot;</span><span class="p">,</span> <span class="s2">&quot;col val 2&quot;</span><span class="p">,</span> <span class="s2">&quot;col val 3&quot;</span><span class="p">,</span> <span class="s2">&quot;col val 4&quot;</span><span class="p">))</span>
+</pre></div>
+
+
+<p>Zak had us complete a challenge that could be found <a href="http://opentechschool.github.io/python-data-intro/core/csv.html">here</a> but we did not have time to finish the final histogram part.</p>
+<p>TOP OF SCRIPT</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">geo_distance</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+
+<span class="k">def</span> <span class="nf">csv_coffee</span><span class="p">():</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;coffee.csv&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">coffee_csv</span><span class="p">:</span>
+        <span class="n">coffee_reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">coffee_csv</span><span class="p">)</span>
+        <span class="n">coffee_row</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">coffee_reader</span><span class="p">)</span>
+        <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">coffee_reader</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Espresso&#39;</span><span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">csv_airport</span><span class="p">(</span><span class="n">country</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;airports.csv&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">airports_csv</span><span class="p">:</span>
+        <span class="n">airport_reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">airports_csv</span><span class="p">)</span>
+        <span class="n">airport_row</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">airport_reader</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">airport_row</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">airport_reader</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="n">country</span><span class="p">])</span>
+</pre></div>
+
+
+<p>These two functions are the first two problems. They are fairly straight forward - they both open csv files and instantiate a reader object to loop through. They both use list comprehensions and use a for loop to identify if the item at the specified index matches the argument.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">calc_airport_distances</span><span class="p">():</span>
+    <span class="n">airport_lats</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">airport_longs</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;airports.csv&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">airports_csv</span><span class="p">:</span>
+        <span class="n">airport_reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">airports_csv</span><span class="p">)</span>
+        <span class="n">airport_headers</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">airport_reader</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">airport_reader</span><span class="p">:</span>
+            <span class="n">airport_lats</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
+            <span class="n">airport_longs</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">7</span><span class="p">])</span>
+</pre></div>
+
+
+<p>The <code>calc_airport_distances</code> function takes a few steps to complete. First we initialize two dictionaries for the latitudes and the longitudes. Next we open the <code>airports.csv</code> file and instantiate a reader object with that file. Next we loop through the reader object and pull out the lats and longs and put them into our dictionaries, respectively. </p>
+<div class="highlight"><pre><span></span>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;routes.csv&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">routes_csv</span><span class="p">:</span>
+        <span class="n">route_reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">routes_csv</span><span class="p">)</span>
+        <span class="n">route_headers</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">route_reader</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">route_reader</span><span class="p">:</span>
+            <span class="n">source_id</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">dest_id</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+
+
+<p>This part of the function opens the <code>routes.csv</code> file, instantiates an reader object, and loops through it th grab the ids for the source and the destination airports.</p>
+<div class="highlight"><pre><span></span>            <span class="k">if</span> <span class="n">source_id</span> <span class="ow">in</span> <span class="n">airport_lats</span> <span class="ow">and</span> <span class="n">dest_id</span> <span class="ow">in</span> <span class="n">airport_lats</span><span class="p">:</span>
+                <span class="n">source_lat</span> <span class="o">=</span> <span class="n">airport_lats</span><span class="p">[</span><span class="n">source_id</span><span class="p">]</span>
+                <span class="n">source_long</span> <span class="o">=</span> <span class="n">airport_longs</span><span class="p">[</span><span class="n">source_id</span><span class="p">]</span>
+                <span class="n">dest_lat</span> <span class="o">=</span> <span class="n">airport_lats</span><span class="p">[</span><span class="n">dest_id</span><span class="p">]</span>
+                <span class="n">dest_long</span> <span class="o">=</span> <span class="n">airport_longs</span><span class="p">[</span><span class="n">dest_id</span><span class="p">]</span>
+
+
+                <span class="n">km_dist</span> <span class="o">=</span> <span class="n">geo_distance</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">source_lat</span><span class="p">,</span>
+                                                <span class="n">source_long</span><span class="p">,</span>
+                                                <span class="n">dest_lat</span><span class="p">,</span>
+                                                <span class="n">dest_long</span><span class="p">)</span>
+
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;dist_info.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dist_info</span><span class="p">:</span>
+                    <span class="n">dist_info_writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">dist_info</span><span class="p">)</span>
+                    <span class="n">dist_info_writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">source_id</span><span class="p">,</span> <span class="n">dest_id</span><span class="p">,</span> <span class="n">km_dist</span><span class="p">,</span> <span class="n">stops</span><span class="p">])</span>
+</pre></div>
+
+
+<p>The last part of the <code>calc_airport_distances</code> function is that is checks that the source and desitnation airport ids are in the lat and long dictionaries. If they are it grabs the lat and long pairs for each airport. With these coordinate pairs we are the able to pass them into the <code>geo_distance</code> function and get the distance between the airports for each row in the <code>routes.csv</code>.</p>
+<p>Here is the <code>geo_distance</code> function:</p>
+<div class="highlight"><pre><span></span><span class="c1"># Using the Haversine formula for geographic Great Circle Distance</span>
+<span class="c1">#</span>
+<span class="c1"># As per https://en.wikipedia.org/wiki/Haversine_formula</span>
+
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">cos</span><span class="p">,</span><span class="n">radians</span><span class="p">,</span><span class="n">sin</span><span class="p">,</span><span class="nb">pow</span><span class="p">,</span><span class="n">asin</span><span class="p">,</span><span class="n">sqrt</span>
+
+<span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="n">lat1</span><span class="p">,</span> <span class="n">long1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">long2</span><span class="p">):</span>
+    <span class="n">radius</span> <span class="o">=</span> <span class="mi">6371</span> <span class="c1"># radius of the earth in km, roughly https://en.wikipedia.org/wiki/Earth_radius</span>
+
+    <span class="c1"># Lat,long are in degrees but we need radians</span>
+    <span class="n">lat1</span> <span class="o">=</span> <span class="n">radians</span><span class="p">(</span><span class="n">lat1</span><span class="p">)</span>
+    <span class="n">lat2</span> <span class="o">=</span> <span class="n">radians</span><span class="p">(</span><span class="n">lat2</span><span class="p">)</span>
+    <span class="n">long1</span> <span class="o">=</span> <span class="n">radians</span><span class="p">(</span><span class="n">long1</span><span class="p">)</span>
+    <span class="n">long2</span> <span class="o">=</span> <span class="n">radians</span><span class="p">(</span><span class="n">long2</span><span class="p">)</span>
+
+    <span class="n">dlat</span> <span class="o">=</span> <span class="n">lat2</span><span class="o">-</span><span class="n">lat1</span>
+    <span class="n">dlon</span> <span class="o">=</span> <span class="n">long2</span><span class="o">-</span><span class="n">long1</span>
+
+    <span class="n">a</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">dlat</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">cos</span><span class="p">(</span><span class="n">lat1</span><span class="p">)</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">lat2</span><span class="p">)</span><span class="o">*</span><span class="nb">pow</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">dlon</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">distance</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">asin</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">distance</span>
+</pre></div>
+
+
+<p>And <a href="https://github.com/AndrewTelleria/civicu-pythonii-summer-2017/tree/master/shared-resources">here</a> are the csv files used for this challenge.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/working-with-http.html" rel="bookmark"
+                           title="Permalink to Using the Requests Library">Using the Requests Library</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-07-25T00:00:00-07:00">
+                Published: Tue 25 July 2017
+        </abbr>
+		<br />
+        <abbr class="modified" title="2017-07-25T00:00:00-07:00">
+                Updated: Tue 25 July 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/andrew-k-telleria.html">Andrew K. Telleria</a>
+        </address>
+<p>In <a href="/category/articles.html">Articles</a>.</p>
+
+</footer><!-- /.post-info -->                <p>This article is about HTTP.</p>
+                <a class="readmore" href="/working-with-http.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
+                </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="https://github.com/AndrewTelleria">GitHub</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="https://www.linkedin.com/in/andrew-telleria-56696268/">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
